@@ -20,6 +20,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements IOnItemClick, Handler.Callback {
 
     List<Cripto> criptoList = new ArrayList<>();
+    List<Arbitraje> arbitrajeList = new ArrayList<>();
+
     Integer posicionActual = -1;
 
     @Override
@@ -29,11 +31,25 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
 
         Handler handler = new Handler(this);
 
-        HiloConexion hiloCriptos = new HiloConexion(handler, false, "ethereum");
-        hiloCriptos.start();
+        HiloConexion hiloEthereum = new HiloConexion(handler, false, "ethereum");
+        hiloEthereum.start();
 
-        HiloConexion hiloImg = new HiloConexion(handler, true);
-        hiloImg.start();
+        HiloConexion hiloBitcoin = new HiloConexion(handler, false, "bitcoin");
+        hiloBitcoin.start();
+
+        HiloConexion hiloDai = new HiloConexion(handler, false, "dai");
+        hiloDai.start();
+
+        HiloConexion hiloUsdt = new HiloConexion(handler, false, "usdt");
+        hiloUsdt.start();
+
+        HiloConexion hiloUsdc = new HiloConexion(handler, false, "usdc");
+        hiloUsdc.start();
+
+
+
+        /*HiloConexion hiloImg = new HiloConexion(handler, true);
+        hiloImg.start();*/
 
         this.crearRecyclerView();
     }
@@ -49,22 +65,38 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
             List<Cripto> criptos = (List<Cripto>) message.obj;
             System.out.println("Entre al handle" + criptos.toString());
 
-            Log.d("", criptos.get(0).toString());
+            for (Cripto cripto : criptos) {
+                System.out.println("Entré al for");
+                criptoList.add(cripto);
+            }
 
-            //tv.setText(criptos.get(0));
         } else if(message.arg1==HiloConexion.IMAGEN) {
             // ImageView iv = super.findViewById(R.id.img);
             byte[] img = (byte[]) message.obj;
             // iv.setImageBitmap(BitmapFactory.decodeByteArray(img, 0, img.length));
         }
 
+        this.arbitrajeList.addAll(Arbitraje.CalcularArbitrajes(this.criptoList));
+
+        this.arbitrajeList = Arbitraje.EliminarDuplicados(this.arbitrajeList);
+
+        Arbitraje.ordenarArbitrajes(this.arbitrajeList);
+
+        this.crearRecyclerView();
+
+        // Log.d("Mejor arbitraje: ", this.arbitrajeList.get(0).toString());
 
         return false;
     }
 
+    private void actualizarCripto(Cripto cripto) {
+        this.criptoList.set(this.posicionActual, cripto);
+        this.crearRecyclerView();
+    }
+
     private void crearRecyclerView() {
 
-        CriptoAdapter adapter = new CriptoAdapter(criptoList, this);
+        ArbitrajeAdapter adapter = new ArbitrajeAdapter(arbitrajeList, this);
         RecyclerView rv = super.findViewById(R.id.rvCriptos);
 
         rv.setAdapter(adapter);
@@ -77,7 +109,7 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
     public void onItemClick(int position) {
         Intent intent = new Intent(this, CalcularActivity.class);
 
-        intent.putExtra("cripto", criptoList.get(position));
+        intent.putExtra("arbitraje", arbitrajeList.get(position));
 
         this.posicionActual = position;
 

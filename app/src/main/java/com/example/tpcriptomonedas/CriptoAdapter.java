@@ -40,8 +40,8 @@ public class CriptoAdapter extends RecyclerView.Adapter<CriptoViewHolder>{
 
         holder.nombreCripto.setText(cripto.getCripto());
         // holder.exchangeCripto.setText(cripto.getExchange());
-        // holder.precioCompra.setText(cripto.getTotalAsk());
-        // holder.precioVenta.setText(cripto.getTotalBid());
+        holder.precioCompra.setText(cripto.getTotalAsk().toString());
+        holder.precioVenta.setText(cripto.getTotalBid().toString());
         holder.setPosition(position);
     }
 }

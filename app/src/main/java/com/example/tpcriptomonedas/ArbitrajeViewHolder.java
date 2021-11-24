@@ -5,26 +5,33 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-public class CriptoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+import org.w3c.dom.Text;
 
-    TextView nombreCripto;
-    TextView exchangeCripto;
+public class ArbitrajeViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+
+    TextView exchangeA;
+    TextView exchangeB;
     TextView precioCompra;
     TextView precioVenta;
+    TextView porcentajeGanancia;
+    TextView moneda;
 
     private IOnItemClick listener;
     private int position;
 
-    public CriptoViewHolder(View view, IOnItemClick listener) {
+    public ArbitrajeViewHolder(View view, IOnItemClick listener) {
         super(view);
-        this.nombreCripto = view.findViewById(R.id.nombreExchangeA);
 
-        // this.exchangeCripto = view.findViewById(R.id.exchangeCripto);
+        this.exchangeA = view.findViewById(R.id.nombreExchangeA);
+        this.exchangeB = view.findViewById(R.id.nombreExchangeB);
         this.precioCompra = view.findViewById(R.id.precioCompra);
         this.precioVenta = view.findViewById(R.id.precioVenta);
+        this.porcentajeGanancia = view.findViewById(R.id.porcentajeGanancia);
+        this.moneda = view.findViewById(R.id.moneda);
 
         view.setOnClickListener(this);
         this.listener = listener;
+
     }
 
     @Override

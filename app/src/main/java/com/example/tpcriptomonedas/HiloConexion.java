@@ -87,7 +87,6 @@ public class HiloConexion extends Thread {
         Object obj;
 
         try {
-            //JSONArray jsonArray = new JSONArray(s);
 
             JSONObject jsonObject = new JSONObject(s);
 
@@ -102,20 +101,6 @@ public class HiloConexion extends Thread {
 
                 System.out.println("totalAsk: " + (jsonObject.get(key).toString()) );
 
-                // Cripto cripto = new Cripto(key, jsonObject.get(key));
-
-                // System.out.println("totalAsk: " + (jsonObject.get(key) );
-
-                /*JSONObject jsonObjectInsideJsonObject = new JSONObject(jsonObject.get(key).toString());
-                Iterator<?> keys2 = jsonObjectInsideJsonObject.keys();
-
-                    while (keys2.hasNext()) {
-                        String key2 = (String) keys2.next();
-                        System.out.println("totalAsk y eso: " + jsonObjectInsideJsonObject.get(key2));
-
-                    }*/
-
-                //JSONObject jsonObjectInsideJsonObject = new JSONObject(s);
                 JSONObject jsonObjectInsideJsonObject = new JSONObject(jsonObject.get(key).toString());
 
                 Double totalAsk = 0.0;
