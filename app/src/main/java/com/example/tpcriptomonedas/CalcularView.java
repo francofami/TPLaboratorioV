@@ -40,18 +40,12 @@ public class CalcularView {
 
                 // cantidadPesosgananciaCalcular.setText(calcularGanancia(cantidadCompraCalcular.getText().toString(), precioCompraCalcular.getText().toString(), precioVentaCalcular.getText().toString()));
 
-                if (Double.parseDouble(cantidadCompraCalcular.getText().toString()) > 0) {
-                    cantidadPesosgananciaCalcular.setText(calcularGanancia(Float.parseFloat(cantidadCompraCalcular.getText().toString()), Float.parseFloat(precioCompraCalcular.getText().toString()), Float.parseFloat(precioVentaCalcular.getText().toString())));
-                } else if (cantidadCompraCalcular.getText().toString() == "") {
-                    cantidadPesosgananciaCalcular.setText("0");
-                }
-
 
             }
 
             @Override
             public void afterTextChanged(Editable editable) {
-
+                cantidadPesosgananciaCalcular.setText(calcularGanancia(Float.parseFloat("0"+cantidadCompraCalcular.getText().toString()), Float.parseFloat(precioCompraCalcular.getText().toString()), Float.parseFloat(precioVentaCalcular.getText().toString())));
             }
         });
 

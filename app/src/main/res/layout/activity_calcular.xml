@@ -79,7 +79,7 @@
             android:id="@+id/cantidadCompraCalcular"
             android:layout_width="272dp"
             android:layout_height="41dp"
-            android:hint="50000"
+            android:hint="0"
             android:inputType="number"
             android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
 
