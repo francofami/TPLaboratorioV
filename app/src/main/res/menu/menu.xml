@@ -3,14 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
-
-    <item android:id="@+id/add" android:title="Add"
-        android:icon="@android:drawable/ic_input_add"
+    <item android:id="@+id/ocultarExchanges" android:title="Ocultar Exchanges"
+        android:icon="@drawable/ic_baseline_remove_red_eye_24"
         app:showAsAction="always"/>
-
-    <item android:id="@+id/search" android:title="Search"
-        android:icon="@android:drawable/ic_menu_search"
-        app:showAsAction="always"/>
-
 
 </menu>
