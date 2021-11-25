@@ -175,37 +175,4 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
         overridePendingTransition( 0, 0);
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        // getMenuInflater().inflate(R.menu.menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        /*if(item.getItemId()==R.id.ocultarExchanges) {
-
-            DialogExchanges dialog = new DialogExchanges(this);
-            dialog.showDialog();
-        } else {
-            int id = item.getItemId();
-            if(id == R.id.item_done) {
-                String itemSelected = "Selected items: \n";
-
-                for(int i=0; i<listView.getCount();i++) {
-                    if(listView.isItemChecked(i)) {
-                        itemSelected += listView.getItemAtPosition(i) + "\n";
-                    }
-                }
-
-                Toast.makeText(this, itemSelected, Toast.LENGTH_SHORT).show();
-            }
-        }*/
-
-        return super.onOptionsItemSelected(item);
-    }
-
 }
