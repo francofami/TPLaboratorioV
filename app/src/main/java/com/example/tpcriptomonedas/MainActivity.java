@@ -1,9 +1,11 @@
 package com.example.tpcriptomonedas;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
 import android.content.Intent;
 import android.graphics.BitmapFactory;
@@ -11,23 +13,40 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
+import android.view.DragEvent;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity implements IOnItemClick, Handler.Callback {
+public class MainActivity extends AppCompatActivity implements IOnItemClick, Handler.Callback, SwipeRefreshLayout.OnRefreshListener {
 
     List<Cripto> criptoList = new ArrayList<>();
     List<Arbitraje> arbitrajeList = new ArrayList<>();
 
+    SwipeRefreshLayout swipeRefreshLayout;
+
     Integer posicionActual = -1;
+
+    ListView listView;
+    ArrayAdapter<String> adapter;
+
+    String[] arrayExchanges = {"Ripio", ""};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setTitle("Arbitrajes");
 
         Handler handler = new Handler(this);
 
@@ -51,7 +70,34 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
         /*HiloConexion hiloImg = new HiloConexion(handler, true);
         hiloImg.start();*/
 
-        this.crearRecyclerView();
+        // this.crearRecyclerView();
+
+        // SwipeRefreshLayout
+        swipeRefreshLayout = (SwipeRefreshLayout) super.findViewById(R.id.swipe_container);
+        swipeRefreshLayout.setOnRefreshListener(this);
+        swipeRefreshLayout.setColorSchemeResources(R.color.design_default_color_primary,
+                android.R.color.holo_green_dark,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_blue_dark);
+
+        swipeRefreshLayout.post(new Runnable() {
+
+            @Override
+            public void run() {
+
+                swipeRefreshLayout.setRefreshing(true);
+
+                // Fetching data from server
+
+                crearRecyclerView();
+            }
+        });
+
+        /*listView = this.findViewById(R.id.listView_data);
+
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_multiple_choice, arrayExchanges);
+
+        listView.setAdapter(adapter);*/
     }
 
     @Override
@@ -96,6 +142,8 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
 
     private void crearRecyclerView() {
 
+        swipeRefreshLayout.setRefreshing(true);
+
         ArbitrajeAdapter adapter = new ArbitrajeAdapter(arbitrajeList, this);
         RecyclerView rv = super.findViewById(R.id.rvCriptos);
 
@@ -103,6 +151,8 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
         rv.setLayoutManager(new LinearLayoutManager(this));
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         linearLayoutManager.setOrientation(RecyclerView.HORIZONTAL);
+
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -116,4 +166,46 @@ public class MainActivity extends AppCompatActivity implements IOnItemClick, Han
         //startActivity(intent);
         startActivityForResult(intent,999);
     }
+
+    @Override
+    public void onRefresh() {
+        finish();
+        overridePendingTransition( 0, 0);
+        startActivity(getIntent());
+        overridePendingTransition( 0, 0);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        // getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        /*if(item.getItemId()==R.id.ocultarExchanges) {
+
+            DialogExchanges dialog = new DialogExchanges(this);
+            dialog.showDialog();
+        } else {
+            int id = item.getItemId();
+            if(id == R.id.item_done) {
+                String itemSelected = "Selected items: \n";
+
+                for(int i=0; i<listView.getCount();i++) {
+                    if(listView.isItemChecked(i)) {
+                        itemSelected += listView.getItemAtPosition(i) + "\n";
+                    }
+                }
+
+                Toast.makeText(this, itemSelected, Toast.LENGTH_SHORT).show();
+            }
+        }*/
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }
